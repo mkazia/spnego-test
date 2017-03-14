@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+                      http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0"
+         metadata-complete="true">
+
+    <display-name>Sample SPNEGO App</display-name>
+    <description>
+        Sample SPNEGO App
+    </description>
+
+    <login-config>
+        <auth-method>SPNEGO</auth-method>
+    </login-config>
+    <security-role>
+        <description>Users</description>
+        <role-name>spnego_test_users</role-name>
+    </security-role>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Common Area</web-resource-name>
+            <url-pattern>/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>PUT</http-method>
+            <http-method>HEAD</http-method>
+            <http-method>TRACE</http-method>
+            <http-method>DELETE</http-method>
+            <http-method>OPTIONS</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>spnego_test_users</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <context-param>
+        <param-name>oozieUrl</param-name>
+        <param-value>https://edge1.dev.local:11443/oozie/v2</param-value>
+    </context-param>
+    <context-param>
+        <param-name>jdbcUrl</param-name>
+        <param-value>jdbc:impala://edge1.dev.local:21050;AuthMech=1;KrbRealm=DEV.LOCAL;KrbHostFQDN=edge1.dev.local;KrbServiceName=impala;SSL=1</param-value>
+    </context-param>
+
+</web-app>
